@@ -11,10 +11,10 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v2
         - name: Deploy django to heroku
-          uses: nyakaz73/heroku-django-deploy@v0.68
-          with: 
+          uses: akhileshns/heroku-deploy@v3.12.12
+          with:
             heroku_app_name : ${{ secrets.HEROKU_APP_RI_NAME }}
             heroku_api_key: ${{ secrets.HEROKU_API_SECRET_KEY }}
-            heroku_email_address: 'gabrieltggv29@gmail.com'
-            use_build_manifest: true
-            git_branch: main
+            heroku_email: 'gabrieltggv29@gmail.com'
+            usedocker: true
+            branch: "main"
