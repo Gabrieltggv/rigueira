@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      context: .
+    volumes:
+      - ./rigueira/:/usr/src/app/
+      - ./requirements/:/usr/src/requirements/
+    ports:
+      - 8080:8080
+    environment:
+      - SECRET_KEY
+      - SQL_ENGINE
+      - SQL_DATABASE
+      - SQL_USER
+      - SQL_PASSWORD
+      - SQL_HOST
+      - SQL_PORT
+
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+
+    depends_on:
+      - db
+  db:
+    image: postgres:14.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=rigueira
+    ports:
+      - 5442:5432
+
+volumes:
+  postgres_data:
