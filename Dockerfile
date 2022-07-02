@@ -2,8 +2,8 @@ FROM python:3.10-alpine AS build-python
 RUN apk update && apk add --virtual build-essential gcc python3-dev musl-dev postgresql-dev
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-COPY ./requirements/dev.txt .
-RUN pip install -r dev.txt
+COPY ./requirements/prod.txt .
+RUN pip install -r prod.txt
 
 FROM python:3.10-alpine
 ENV PYTHONDONTWRITEBYTECODE 1
