@@ -5,3 +5,4 @@ compile:
 	rm -f requirements/*.txt
 	@pip-compile requirements/base.in
 	@pip-compile requirements/dev.in
+	@pip-compile requirements/prod.in

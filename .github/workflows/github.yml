@@ -18,3 +18,4 @@ jobs:
             heroku_email: 'gabrieltggv29@gmail.com'
             usedocker: true
             branch: "main"
+            stack: "container"
