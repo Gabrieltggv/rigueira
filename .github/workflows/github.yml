@@ -4,18 +4,55 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: rigueira
+    env:
+      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      USE_S3: ${{ secrets.USE_S3 }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
+    name: Linter and test code
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build containers
+        run: docker-compose -f docker-compose.yml build
+      - name: Lint with flake8
+        run: docker-compose run --rm web flake8
+      - name: Check format with blue
+        run: docker-compose run --rm web blue --check --diff --color .
+      # - name: Test
+        # run: docker-compose run --rm web pytest 
+
   heroku_git_deploy_job:
       runs-on: ubuntu-latest
-      name: Git Deploy job- A job to deploy django app to heroku using git
+      name: Deploy to heroku
+      environment: rigueira
+      needs: test
       steps:
         - name: Checkout
-          uses: actions/checkout@v2
+          uses: actions/checkout@v3
         - name: Deploy django to heroku
           uses: akhileshns/heroku-deploy@v3.12.12
           with:
-            heroku_app_name : ${{ secrets.HEROKU_APP_RI_NAME }}
-            heroku_api_key: ${{ secrets.HEROKU_API_SECRET_KEY }}
+            heroku_app_name: ${{ secrets.HEROKU_APP_RI_NAME }}
+            appdir: "."
             heroku_email: 'gabrieltggv29@gmail.com'
+            heroku_api_key: ${{ secrets.HEROKU_API_SECRET_KEY }}
             usedocker: true
             branch: "main"
             stack: "container"
+            docker_build_args: |
+              ENVIRONMENT
+          env:
+            ENVIRONMENT: prod
+            SECRET_KEY: ${{ secrets.SECRET_KEY }}
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            USE_S3: ${{ secrets.USE_S3 }}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}

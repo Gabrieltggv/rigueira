@@ -1,2 +1,13 @@
 -r base.txt
 django-extensions
+isort
+blue
+flake8
+flake8-debugger 
+flake8-pytest-style
+isort
+mypy
+pep8-naming
+pyupgrade
+bandit
+pip-audit

@@ -4,11 +4,13 @@ services:
   web:
     build:
       context: .
+      target: development
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
     volumes:
       - ./rigueira/:/usr/src/app/
-      - ./requirements/:/usr/src/requirements/
     ports:
-      - 8080:8080
+      - 8082:8080
     environment:
       - SECRET_KEY
       - SQL_ENGINE
@@ -17,6 +19,10 @@ services:
       - SQL_PASSWORD
       - SQL_HOST
       - SQL_PORT
+      - USE_S3
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_STORAGE_BUCKET_NAME
 
     command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
 

@@ -8,20 +8,94 @@ asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
+attrs==21.4.0
+    # via
+    #   -r requirements/base.txt
+    #   pytest
+boto3==1.24.23
+    # via -r requirements/base.txt
+botocore==1.27.23
+    # via
+    #   -r requirements/base.txt
+    #   boto3
+    #   s3transfer
+coverage[toml]==6.4.1
+    # via
+    #   -r requirements/base.txt
+    #   pytest-cov
 dj-database-url==0.5.0
     # via -r requirements/base.txt
-django==4.0.5
+django==4.0.6
+    # via
+    #   -r requirements/base.txt
+    #   django-storages
+django-storages==1.12.3
     # via -r requirements/base.txt
 gunicorn==20.1.0
     # via -r requirements/prod.in
+iniconfig==1.1.1
+    # via
+    #   -r requirements/base.txt
+    #   pytest
+jmespath==1.0.1
+    # via
+    #   -r requirements/base.txt
+    #   boto3
+    #   botocore
+packaging==21.3
+    # via
+    #   -r requirements/base.txt
+    #   pytest
+pluggy==1.0.0
+    # via
+    #   -r requirements/base.txt
+    #   pytest
 psycopg2-binary==2.9.3
     # via -r requirements/base.txt
+py==1.11.0
+    # via
+    #   -r requirements/base.txt
+    #   pytest
+pyparsing==3.0.9
+    # via
+    #   -r requirements/base.txt
+    #   packaging
+pytest==7.1.2
+    # via
+    #   -r requirements/base.txt
+    #   pytest-cov
+    #   pytest-django
+pytest-cov==3.0.0
+    # via -r requirements/base.txt
+pytest-django==4.5.2
+    # via -r requirements/base.txt
+python-dateutil==2.8.2
+    # via
+    #   -r requirements/base.txt
+    #   botocore
 python-decouple==3.6
     # via -r requirements/base.txt
+s3transfer==0.6.0
+    # via
+    #   -r requirements/base.txt
+    #   boto3
+six==1.16.0
+    # via
+    #   -r requirements/base.txt
+    #   python-dateutil
 sqlparse==0.4.2
     # via
     #   -r requirements/base.txt
     #   django
+tomli==2.0.1
+    # via
+    #   -r requirements/base.txt
+    #   coverage
+    #   pytest
+urllib3==1.26.9
+    # via
+    #   -r requirements/base.txt
+    #   botocore
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

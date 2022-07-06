@@ -1,5 +1,17 @@
+setup:
+  config:
+    env_file: .env
 build:
   docker:
+    release:
+       dockerfile: Dockerfile
+       target: prod
     web: Dockerfile
+  config:
+    ENVIRONMENT: prod
 run:
-  web: gunicorn rigueira.wsgi:application --bind 0.0.0.0:$PORT
+  web: gunicorn rigueira.wsgi:application
+release:
+  image: web
+  command:
+    - python manage.py collectstatic --noinput

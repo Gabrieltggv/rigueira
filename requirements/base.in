@@ -1,4 +1,8 @@
 django
 python-decouple
+pytest-django
+pytest-cov
 psycopg2-binary
 dj-database-url
+boto3
+django-storages
