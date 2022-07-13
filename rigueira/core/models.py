@@ -8,8 +8,6 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('O email é obrigatório!')
 
-        breakpoint()
-
         email = self.normalize_email(email)
         user = self.model(email=email, username=email, **extra_fields)
 
