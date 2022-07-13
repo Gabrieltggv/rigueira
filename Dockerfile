@@ -10,7 +10,6 @@ RUN pip install -r ${ENVIRONMENT}.txt
 FROM python:3.10.5-slim-buster AS development
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG 0
 ENV PATH="/opt/venv/bin:$PATH"
 COPY --from=build-python /opt/venv /opt/venv
 RUN apt-get update && apt-get install -y make gcc python3-dev musl-dev
@@ -30,9 +29,9 @@ ARG ENVIRONMENT
 ENV ENVIRONMENT=${ENVIRONMENT}
 ENV SECRET_KEY=${SECRET_KEY}
 ENV USE_S3=${USE_S3}
-ENV AWS_ACCESS_KEY_ID=&{AWS_ACCESS_KEY_ID}
-ENV AWS_SECRET_ACCESS_KEY=&{AWS_SECRET_ACCESS_KEY}
-ENV AWS_STORAGE_BUCKET_NAME=&{AWS_STORAGE_BUCKET_NAME}
+ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+ENV AWS_STORAGE_BUCKET_NAME=${AWS_STORAGE_BUCKET_NAME}
 ENV PATH="/opt/venv/bin:$PATH"
 COPY --from=build-python /opt/venv /opt/venv
 RUN apt-get update && apt-get install -y make gcc python3-dev musl-dev
