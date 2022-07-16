@@ -9,12 +9,14 @@ services:
         ENVIRONMENT: ${ENVIRONMENT}
     volumes:
       - ./rigueira/:/usr/src/app/
+      - static-data:/usr/src/app/staticfiles/
     ports:
       - 8082:8080
     environment:
       - SECRET_KEY
       - SQL_ENGINE
       - DATABASE_URL
+      - DEBUG
       - SQL_DATABASE
       - SQL_USER
       - SQL_PASSWORD
@@ -42,3 +44,4 @@ services:
 
 volumes:
   postgres_data:
+  static-data:
