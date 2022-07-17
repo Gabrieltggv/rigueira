@@ -2,8 +2,8 @@ name: Rigueira check
 
 on:
   push:
-    branches: [ main ]
   pull_request:
+    branches: [main]
     types: [closed, opened]
 jobs:
   test:
@@ -31,7 +31,7 @@ jobs:
         # run: docker-compose run --rm web pytest 
 
   heroku_git_deploy_job:
-        if: github.event.pull_request.merged == true
+        if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
         runs-on: ubuntu-latest
         name: Deploy to heroku
         environment: rigueira
