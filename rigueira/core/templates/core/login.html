@@ -1,34 +1,41 @@
 {% extends "core/base.html" %}
 {% load static %}
-
-{% block title %} Login {% endblock %}
-
+{% block title %}Login{% endblock %}
 {% block body %}
-<div class="container-fluid" style="background-color: blue">
-    <form action="" method="post" class="needs-valitation" novalidate>
-        {% csrf_token %}
-        <div class="d-flex justify-content-center">
-            <div class="col-md-4">
-                <div class="form-floating p-3">
-                    <label for="floatingLabel">Login</label>
-                    <div class="pt-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId" placeholder="email">
-                        <small id="emailHelpId" class="form-text text-muted">Insira o email</small>
-                    </div>
-                    <div class="pt-3">
-                        <label for="password" class="form-label">Senha</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="password">
-                    </div>
-                    <button type="submit" class="btn-warning">Entrar</button>
+    <section class="vh-100 d-flex flex-wrap align-items-center">
+        <div class="container-fluid h-custom">
+            <div class="row justify-content-center">
+                <picture class="col-4 g-0">
+                    <img src="{% static 'img/rigueira.jpg' %}"
+                         class="img-fluid"
+                         alt="Rigueira">
+                </picture>
+                <div class="d-flex flex-column align-items-start justify-content-center ms-5 col-6 g-0">
+                    
+                    {% if form.errors %}<p>{{ form.non_field_errors }}</p>{% endif %}
+                    <h5>Login</h5>
+                    <form action="{% url 'login' %}" method="POST" class="needs-valitation">
+                        {% csrf_token %}
+                        <div class="form-goup">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   id="email"
+                                   placeholder="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password"
+                                   class="form-control"
+                                   name="password"
+                                   id="password"
+                                   placeholder="password">
+                        </div>
+                        <button type="submit" class="btn-warning my-4">Entrar</button>
+                    </form>
                 </div>
             </div>
-            <div class="col-sm-8">
-                <img src="{% static 'images/rigueira.jpg' %}" class="img-fluid rounded-top" alt="Rigueira Acompanhamento Escolar">
-            </div>
-            
         </div>
-    </form>
-</div>
-
+    </section>
 {% endblock %}
