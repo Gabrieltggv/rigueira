@@ -7,7 +7,7 @@ compile:
 	@pip-compile requirements/dev.in
 	@pip-compile requirements/prod.in
 
-test:
+teste:
 	pytest --cov-report term-missing --cov-report html --cov-branch --cov rigueira/
 
 lint:
@@ -18,9 +18,9 @@ lint:
 	@echo
 	flake8 rigueira --config=rigueira/setup.cfg
 	@echo
-	mypy .
+	mypy --ignore-missing-imports rigueira/
 	@echo
-	bandit -r rigueira/
+	bandit -r rigueira/ -x /tests
 	@echo
 	pip-audit
 
