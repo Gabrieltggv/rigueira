@@ -5,169 +5,70 @@
 
 {% block body %}
 <div class="container-fluid g-0 mb-5">
-    {% if user.is_authenticated %}
-                    <h1>So para entender</h1>
-                    <p>
-                        <a href="/logout">Log Out</a>
-                    </p>
-                {% endif %}
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="{% static 'img/1.jpg' %}" class="d-block w-100" alt="...">
+    <div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;">
+        <a href="/" class="d-block p-3 link-dark text-decoration-none" title="" data-bs-toggle="tooltip"
+            data-bs-placement="right" data-bs-original-title="Icon-only">
+            <img src="{% static 'img/logo_rigueira.svg' %}" alt="Rigueira acompanhamento escolar"
+                style='width: 40px; height: 55px'>
+            <span class="visually-hidden">Icon-only</span>
+        </a>
+        <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+            <li class="nav-item">
+                <a href="#" class="nav-link active py-3 border-bottom" aria-current="page" title=""
+                    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+                    <svg class="bi" width="24" height="24" role="img" aria-label="Home">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip"
+                    data-bs-placement="right" data-bs-original-title="Dashboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M447.1 0h-384c-35.25 0-64 28.75-64 63.1v287.1c0 35.25 28.75 63.1 64 63.1h96v83.98c0 9.836 11.02 15.55 19.12 9.7l124.9-93.68h144c35.25 0 64-28.75 64-63.1V63.1C511.1 28.75 483.2 0 447.1 0zM464 352c0 8.75-7.25 16-16 16h-160l-80 60v-60H64c-8.75 0-16-7.25-16-16V64c0-8.75 7.25-16 16-16h384c8.75 0 16 7.25 16 16V352z"/></svg>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip"
+                    data-bs-placement="right" data-bs-original-title="Orders">
+                    <svg class="bi" width="24" height="24" role="img" aria-label="Orders">
+                        <use xlink:href="#table"></use>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip"
+                    data-bs-placement="right" data-bs-original-title="Products">
+                    <svg class="bi" width="24" height="24" role="img" aria-label="Products">
+                        <use xlink:href="#grid"></use>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip"
+                    data-bs-placement="right" data-bs-original-title="Customers">
+                    <svg class="bi" width="24" height="24" role="img" aria-label="Customers">
+                        <use xlink:href="#people-circle"></use>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+        <div class="dropdown border-top">
+            <a href="#"
+                class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle"
+                id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="mdo" width="24" height="24" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3" style="">
+                <li><a class="dropdown-item" href="#">New project...</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+            </ul>
         </div>
-        <div class="carousel-item">
-            <img src="{% static 'img/2.jpg' %}" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="{% static 'img/3.jpg' %}" class="d-block w-100" alt="...">
-        </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-        </button>
     </div>
 </div>
 
-<section class="container">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-10 col-xl-8 text-center">
-            <h3 class="mb-4">Testimonials</h3>
-            <p class="mb-4 pb-2 mb-md-5 pb-md-0">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet
-                numquam iure provident voluptate esse quasi, veritatis totam voluptas nostrum
-                quisquam eum porro a pariatur veniam.
-            </p>
-        </div>
-    </div>
-  
-    <div class="row text-center">
-        <div class="col-md-4 mb-5 mb-md-0">
-            <div class="card testimonial-card">
-                <div class="card-up" style="background-color: #9d789b;"></div>
-                <div class="avatar mx-auto bg-white">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp"
-                    class="rounded-circle img-fluid" />
-                </div>
-                <div class="card-body">
-                    <h4 class="mb-4">Maria Smantha</h4>
-                    <hr />
-                    <p class="dark-grey-text mt-4">
-                    <i class="fas fa-quote-left pe-2"></i>Lorem ipsum dolor sit amet eos adipisci,
-                    consectetur adipisicing elit.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-5 mb-md-0">
-            <div class="card testimonial-card">
-                <div class="card-up" style="background-color: #7a81a8;"></div>
-                <div class="avatar mx-auto bg-white">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(2).webp"
-                    class="rounded-circle img-fluid" />
-                </div>
-                <div class="card-body">
-                    <h4 class="mb-4">Lisa Cudrow</h4>
-                    <hr />
-                    <p class="dark-grey-text mt-4">
-                    <i class="fas fa-quote-left pe-2"></i>Neque cupiditate assumenda in maiores
-                    repudi mollitia architecto.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-0">
-            <div class="card testimonial-card">
-                <div class="card-up" style="background-color: #6d5b98;"></div>
-                <div class="avatar mx-auto bg-white">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(9).webp"
-                    class="rounded-circle img-fluid" />
-                </div>
-                <div class="card-body">
-                    <h4 class="mb-4">John Smith</h4>
-                    <hr />
-                    <p class="dark-grey-text mt-4">
-                    <i class="fas fa-quote-left pe-2"></i>Delectus impedit saepe officiis ab
-                    aliquam repellat rem unde ducimus.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<footer class="bg-light text-center text-white">
-    <!-- Grid container -->
-    <div class="container p-4 pb-0">
-      <!-- Section: Social media -->
-      <section class="mb-4">
-        <!-- Facebook -->
-        <a
-          class="btn btn-primary btn-floating m-1"
-          style="background-color: #3b5998;"
-          href="#!"
-          role="button"
-          ><i class="fab fa-facebook-f"></i
-        ></a>
-  
-        <!-- Twitter -->
-        <a
-          class="btn btn-primary btn-floating m-1"
-          style="background-color: #55acee;"
-          href="#!"
-          role="button"
-          ><i class="fab fa-twitter"></i
-        ></a>
-  
-        <!-- Google -->
-        <a
-          class="btn btn-primary btn-floating m-1"
-          style="background-color: #dd4b39;"
-          href="#!"
-          role="button"
-          ><i class="fab fa-google"></i
-        ></a>
-  
-        <!-- Instagram -->
-        <a
-          class="btn btn-primary btn-floating m-1"
-          style="background-color: #ac2bac;"
-          href="#!"
-          role="button"
-          ><i class="fab fa-instagram"></i
-        ></a>
-  
-        <!-- Linkedin -->
-        <a
-          class="btn btn-primary btn-floating m-1"
-          style="background-color: #0082ca;"
-          href="#!"
-          role="button"
-          ><i class="fab fa-linkedin-in"></i
-        ></a>
-        <!-- Github -->
-        <a
-          class="btn btn-primary btn-floating m-1"
-          style="background-color: #333333;"
-          href="#!"
-          role="button"
-          ><i class="fab fa-github"></i
-        ></a>
-      </section>
-      <!-- Section: Social media -->
-    </div>
-    <!-- Grid container -->
-  
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © 2020 Copyright:
-      <a class="text-white" href="https://mdbootstrap.com/">Rigueira</a>
-    </div>
-    <!-- Copyright -->
-</footer>
 {% endblock %}

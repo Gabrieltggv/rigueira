@@ -2,39 +2,40 @@
 {% load static %}
 {% block title %}Login{% endblock %}
 {% block body %}
-    <section class="vh-100 d-flex flex-wrap align-items-center">
-        <div class="container-fluid h-custom">
-            <div class="row justify-content-center">
+    <section>
+        <div class="container-fluid vh-100 p-4">
+            <div class="row">
+                <div class="d-flex flex-column align-items-center justify-content-center col-md-7 col-sm-12 g-0">
+                    <div class="card_login">
+                        {% if form.errors %}<p>{{ form.non_field_errors }}</p>{% endif %}
+                        <h1 class="m-5 ps-5">Login</h1>
+                        <form action="{% url 'login' %}" method="POST" class="needs-valitation">
+                            {% csrf_token %}
+                            <div class="form-goup">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email"
+                                       class="form-control"
+                                       name="email"
+                                       id="email"
+                                       placeholder="email">
+                            </div>
+                            <div class="form-group my-1">
+                                <label for="password" class="form-label">Senha</label>
+                                <input type="password"
+                                       class="form-control"
+                                       name="password"
+                                       id="password"
+                                       placeholder="password">
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block my-4">Entrar</button>
+                        </form>
+                    </div>
+                </div>
                 <picture class="col-4 g-0">
-                    <img src="{% static 'img/rigueira.jpg' %}"
+                    <img src="{% static 'img/logo_rigueira.svg' %}"
                          class="img-fluid"
                          alt="Rigueira">
                 </picture>
-                <div class="d-flex flex-column align-items-start justify-content-center ms-5 col-6 g-0">
-                    
-                    {% if form.errors %}<p>{{ form.non_field_errors }}</p>{% endif %}
-                    <h5>Login</h5>
-                    <form action="{% url 'login' %}" method="POST" class="needs-valitation">
-                        {% csrf_token %}
-                        <div class="form-goup">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email"
-                                   class="form-control"
-                                   name="email"
-                                   id="email"
-                                   placeholder="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="form-label">Senha</label>
-                            <input type="password"
-                                   class="form-control"
-                                   name="password"
-                                   id="password"
-                                   placeholder="password">
-                        </div>
-                        <button type="submit" class="btn-warning my-4">Entrar</button>
-                    </form>
-                </div>
             </div>
         </div>
     </section>
