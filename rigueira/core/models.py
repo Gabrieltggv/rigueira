@@ -1,5 +1,13 @@
+from core.util import get_upload_path
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+
+USER_TYPE_CHOICES = (
+    (1, 'student'),
+    (2, 'teacher'),
+    (3, 'parent'),
+    (4, 'admin'),
+)
 
 
 class UserManager(BaseUserManager):
@@ -34,8 +42,13 @@ class User(AbstractUser):
         max_length=255,
         unique=True,
     )
+    avatar = models.ImageField(blank=True, upload_to=get_upload_path)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    user_type = models.PositiveSmallIntegerField(
+        choices=USER_TYPE_CHOICES,
+        default=1,
+    )
 
     objects = UserManager()
 
@@ -51,3 +64,15 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    semester = models.CharField(max_length=2)
+    school = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.user.full_name()

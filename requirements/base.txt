@@ -6,23 +6,30 @@
 #
 asgiref==3.5.2
     # via django
-attrs==21.4.0
+attrs==22.1.0
     # via pytest
-boto3==1.24.23
+boto3==1.24.48
     # via -r requirements/base.in
-botocore==1.27.23
+botocore==1.27.48
     # via
     #   boto3
     #   s3transfer
-coverage[toml]==6.4.1
+coverage[toml]==6.4.3
     # via pytest-cov
-dj-database-url==0.5.0
+dj-database-url==1.0.0
     # via -r requirements/base.in
-django==4.0.6
+django==4.1
     # via
     #   -r requirements/base.in
+    #   dj-database-url
+    #   django-ckeditor
+    #   django-js-asset
     #   django-storages
-django-storages==1.12.3
+django-ckeditor==6.4.2
+    # via -r requirements/base.in
+django-js-asset==2.0.0
+    # via django-ckeditor
+django-storages==1.13.1
     # via -r requirements/base.in
 iniconfig==1.1.1
     # via pytest
@@ -32,6 +39,8 @@ jmespath==1.0.1
     #   botocore
 packaging==21.3
     # via pytest
+pillow==9.2.0
+    # via -r requirements/base.in
 pluggy==1.0.0
     # via pytest
 psycopg2-binary==2.9.3
@@ -62,5 +71,5 @@ tomli==2.0.1
     # via
     #   coverage
     #   pytest
-urllib3==1.26.9
+urllib3==1.26.11
     # via botocore
