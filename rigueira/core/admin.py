@@ -13,7 +13,10 @@ class CustomUserAdmin(BaseUserAdmin):
     list_display = ('email', 'first_name', 'last_name', 'is_staff')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Informações Pessoais', {'fields': ('first_name', 'last_name')}),
+        (
+            'Informações Pessoais',
+            {'fields': ('first_name', 'last_name', 'avatar')},
+        ),
         (
             'Permissões',
             {
@@ -21,6 +24,7 @@ class CustomUserAdmin(BaseUserAdmin):
                     'is_active',
                     'is_staff',
                     'is_superuser',
+                    'user_type',
                     'groups',
                     'user_permissions',
                 )

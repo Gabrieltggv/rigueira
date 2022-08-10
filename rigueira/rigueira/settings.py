@@ -42,8 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'storages',
     'core',
+    'feedback',
 ]
 
 MIDDLEWARE = [
@@ -146,14 +148,20 @@ if USE_S3:
         f'//s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/'
     )
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    MEDIAFILES_LOCATION = 'media'
+    DEFAULT_FILE_STORAGE = 'django_lender.custom_storages.MediaStorage'
+    MEDIA_URL = (
+        f'//s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{MEDIAFILES_LOCATION}/'
+    )
 else:
     STATIC_URL = 'staticfiles/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    MEDIA_URL = '/mediafiles/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-MEDIA_URL = '/mediafiles/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
