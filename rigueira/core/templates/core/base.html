@@ -10,10 +10,6 @@
               content="Gabriel Torres Gomes  - gabrieltggv29@gmail.com">
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon" />
-        <!-- <link rel="stylesheet"
-              type="text/css"
-              media="screen"
-              href="{% static 'css/reset.css' %}">-->
         <link rel="stylesheet"
               type="text/css"
               media="screen"
@@ -22,13 +18,25 @@
               type="text/css"
               media="screen"
               href="{% static 'css/core.css' %}">
+        <link rel="stylesheet"
+              type="text/css"
+              media="screen"
+              href="{% static 'css/reset.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&family=Saira&display=swap"
+              rel="stylesheet">
         <title>
             {% block title %}{% endblock %}
         </title>
     </head>
     <body>
-                {% block body %}{% endblock %}
-        <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
-        <script src="{% static 'htmx/htmx.min.js' %}"></script>
+        <!-- Messages -->
+        <div id="messages" class="container p-2 d-none"></div>
+        <!-- HtmxCanvas -->
+        {% block body %}{% endblock %}
+        <script src="{% static 'bootstrap/js/bootstrap.min.js'%}" defer></script>
+        <script src="{% static 'htmx/htmx.min.js' %}" defer></script>
+        <script src="{% static 'chart/chart.min.js' %}" defer></script>
     </body>
 </html>

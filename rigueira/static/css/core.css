@@ -11,8 +11,15 @@ h5 {
     font-style: normal;
     font-weight: 600;
 }
+
+#sidebar {
+    width: 4.5rem;
+    height: 100vh;
+}
+
+
 @media (min-width: 301px) and (max-width: 768px) {
-  .container-fluid {
+  section > div.container-fluid {
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -22,7 +29,7 @@ h5 {
       width: 300px;
       ;
   }
-  body {
+  section.login {
     background-image: url("../img/logo_rigueira.svg");
     background-size: 400px;
     background-position: center;
