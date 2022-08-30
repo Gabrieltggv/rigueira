@@ -5,12 +5,12 @@ from django.db import models
 
 
 class FeedBack(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     feedback = RichTextField()
     date_creat = models.DateField(auto_now_add=True)
     date_change = models.DateField(auto_now=True)
     authorized = models.BooleanField(default=False)
-    approved = models.BooleanField(default=False)
+    status = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['date_change']

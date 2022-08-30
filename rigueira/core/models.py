@@ -1,6 +1,8 @@
 from core.util import get_upload_path
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 USER_TYPE_CHOICES = (
     (1, 'student'),
@@ -65,14 +67,21 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    @property
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
 
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    semester = models.CharField(max_length=2)
+    ano_letivo = models.CharField(max_length=2)
     school = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.user.full_name()
+        return self.user.full_name
+
+
+@receiver(post_save, sender=User)
+def save_student(sender, instance, created, **kwargs):
+    if created and instance.user_type == 1:
+        Student.objects.create(user=instance)

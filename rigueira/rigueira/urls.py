@@ -19,11 +19,14 @@ from django.urls import include, path
 
 from rigueira import settings
 
-urlpatterns = [path('admin/', admin.site.urls), path('', include('core.urls'))]
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('core.urls')),
+    path('feedback/', include('feedback.urls', namespace='feedback')),
+]
 
 
 if settings.DEBUG == 'True':
-    print('Passei')
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
     )
