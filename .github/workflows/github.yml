@@ -2,8 +2,10 @@ name: Rigueira check
 
 on:
   push:
+    branches:
+      - "release/**"
   pull_request:
-    branches: [main]
+    branches: [main, release/*]
     types: [closed]
 jobs:
   test:
@@ -31,28 +33,51 @@ jobs:
       - name: Test
         run: docker-compose run --rm web pytest
 
-  heroku_git_deploy_job:
+  build_and_push:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
+    environment: rigueira
+    needs: test
+
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker-compose -f docker-compose.yml build
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 600
+
+      - name: Push registry
+        run: docker-compose -f docker-compose.yml push
+
+
+  deploy:
         if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
         runs-on: ubuntu-latest
-        name: Deploy to heroku
+        name: Deploy to Digitalocean
         environment: rigueira
-        needs: test
+        needs: build_and_push
+
         steps:
           - name: Checkout
             uses: actions/checkout@v3
-          - name: Deploy django to heroku
-            uses: akhileshns/heroku-deploy@v3.12.12
+          - name: Execution containers
+            uses: appleboy/ssh-action@master
             with:
-              heroku_app_name: ${{ secrets.HEROKU_APP_RI_NAME }}
-              appdir: "."
-              heroku_email: 'gabrieltggv29@gmail.com'
-              heroku_api_key: ${{ secrets.HEROKU_API_SECRET_KEY }}
-              procfile: 'web: python manage.py collectstatic --noinput'
-              usedocker: true
-              branch: "main"
-              stack: "container"
-              docker_build_args: |
-                ENVIRONMENT
+              host: ${{ secrets.HOST }}
+              USERNAME: ${{ secrets.USERNAME }}
+              PORT: ${{ secrets.PORT }}
+              password: ${{ secrets.PASSWORD }}
+              script: |
+                - docker-compose -f docker-compose.yml pull
+                - docker-compose -f docker-compose.yml up -d
             env:
               ENVIRONMENT: prod
               SECRET_KEY: ${{ secrets.SECRET_KEY }}
