@@ -28,3 +28,32 @@ class FeedBack(models.Model):
             )
         else:
             super().save(*args, **kwargs)
+
+
+
+
+class Semestre(models.Model):
+    class Materia(models.TextChoices):
+        PORTUGUES = "Português"
+        GEOGRAFIA = "Geografia"
+        HISTORIA = "História"
+        FISICA = "Física"
+        MATEMATICA = "Matemática"
+        CIENCIA = "Ciência"
+        QUIMICA = "Química"
+
+    class Semestre(models.TextChoices):
+        PRIMEIRO = "1º semestre"
+        SEGUNDO = "2º semestre"
+        TERCEIRO = "3º semestre"
+        QUARTO = "4º semestre"
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    ano = models.DateField(auto_now=True)
+    semestre = models.IntegerField(choices=Semestre.choices)
+    materia = models.CharField(max_length= 50,choices=Materia.choices)
+
+
+class Nota(models.Model):
+    nota = models.FloatField()
+    semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE)

@@ -4,7 +4,7 @@
 {% block body %}
     <div class="container-fluid g-0">
         <div class='row g-0'>
-            <div class='col'>
+            <div class="col-2 col-sm-1">
                 <div id="sidebar" class="d-flex flex-column flex-shrink-0 bg-light">
                     <a href="/"
                        class="d-block px-3 link-dark text-decoration-none"
@@ -25,7 +25,6 @@
                                data-bs-toggle="tooltip"
                                hx-get="{% url 'feedback:dashboard' %}"
                                hx-target="#htmxCanvas"
-                               hx-push-url="true"
                                data-bs-placement="right"
                                data-bs-original-title="Dashboard">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -101,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <main id="htmxCanvas" class="col-md-11">
+            <main id="htmxCanvas" class="col-10 col-sm-11 ps-2">
             </main>
         </div>
     </div>
