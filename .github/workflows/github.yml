@@ -3,7 +3,7 @@ name: Rigueira check
 on:
   push:
   pull_request:
-    branches: [main]
+    branches: [main, release/*]
     types: [closed]
 jobs:
   test:
