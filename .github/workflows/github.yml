@@ -2,6 +2,8 @@ name: Rigueira check
 
 on:
   push:
+    branches:
+      - "release/**"
   pull_request:
     branches: [main, release/*]
     types: [closed]
