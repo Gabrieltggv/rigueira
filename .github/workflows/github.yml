@@ -34,7 +34,7 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
-    environment: rigueira
+    environment: Deploy
     needs: test
 
     steps:
@@ -60,7 +60,7 @@ jobs:
         if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
         runs-on: ubuntu-latest
         name: Deploy to Digitalocean
-        environment: rigueira
+        environment: Deploy
         needs: build_and_push
 
         steps:
