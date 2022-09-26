@@ -36,6 +36,7 @@ jobs:
     if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
     environment: Deploy
     needs: test
+    name: build_and_push
     env:
       ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -71,7 +72,7 @@ jobs:
         runs-on: ubuntu-latest
         name: Deploy to Digitalocean
         environment: Deploy
-        needs: build_and_push
+        needs: deploy
 
         steps:
           - name: Checkout
@@ -82,7 +83,10 @@ jobs:
               host: ${{ secrets.HOST }}
               USERNAME: ${{ secrets.USERNAME }}
               key: ${{ secrets.USERKEY }}
+              passphrase: ${{ secrets.PASSPHRASE }}
               script: |
+                - docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com/rigueira-reg
+                - docker-compose -f docker-compose.yml down
                 - docker-compose -f docker-compose.yml pull
                 - docker-compose -f docker-compose.yml up -d
             env:
