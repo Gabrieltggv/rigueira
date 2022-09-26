@@ -72,7 +72,7 @@ jobs:
         runs-on: ubuntu-latest
         name: Deploy to Digitalocean
         environment: Deploy
-        needs: deploy
+        needs: build_and_push
 
         steps:
           - name: Checkout
