@@ -36,6 +36,16 @@ jobs:
     if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
     environment: Deploy
     needs: test
+    env:
+      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      USE_S3: True
+      DEBUG: False
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
+
 
     steps:
       - name: Checkout master
@@ -71,17 +81,16 @@ jobs:
             with:
               host: ${{ secrets.HOST }}
               USERNAME: ${{ secrets.USERNAME }}
-              PORT: ${{ secrets.PORT }}
-              password: ${{ secrets.PASSWORD }}
+              key: ${{ secrets.USERKEY }}
               script: |
                 - docker-compose -f docker-compose.yml pull
                 - docker-compose -f docker-compose.yml up -d
             env:
-              ENVIRONMENT: prod
+              ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
               SECRET_KEY: ${{ secrets.SECRET_KEY }}
               DATABASE_URL: ${{ secrets.DATABASE_URL }}
-              USE_S3: True
-              DEBUG: False
+              USE_S3: ${{ secrets.USE_S3 }}
+              DEBUG: ${{ secrets.DEBUG }}
               AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
               AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
