@@ -83,7 +83,6 @@ jobs:
               host: ${{ secrets.HOST }}
               USERNAME: ${{ secrets.USERNAME }}
               key: ${{ secrets.USERKEY }}
-              passphrase: ${{ secrets.PASSPHRASE }}
               script: |
                 - docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com/rigueira-reg
                 - docker-compose -f docker-compose.yml down
