@@ -5,6 +5,7 @@ on:
   pull_request:
     branches: [main]
     types: [closed]
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -43,17 +44,18 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       USE_S3: True
       DEBUG: False
+      REGISTRY: ${{ secrets.REGISTRY }}
+      IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
-
 
     steps:
       - name: Checkout master
         uses: actions/checkout@v2
 
       - name: Build image
-        run: docker-compose -f docker-compose.yml build
+        run: docker build -t $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
@@ -64,7 +66,7 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Push registry
-        run: docker-compose -f docker-compose.yml push
+        run: docker push $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
 
 
   deploy:
@@ -84,15 +86,21 @@ jobs:
               USERNAME: ${{ secrets.USERNAME }}
               key: ${{ secrets.USERKEY }}
               script: |
-                docker-compose -f docker-compose.yml down
-                docker-compose -f docker-compose.yml pull
-                docker-compose -f docker-compose.yml up -d
+                docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
+                docker stop $(echo $IMAGE_NAME)
+                docker rm $(echo $IMAGE_NAME)
+                docker run -d \
+                --restart always \
+                --name $(echo $IMAGE_NAME) \
+                $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)''
             env:
               ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
               SECRET_KEY: ${{ secrets.SECRET_KEY }}
               DATABASE_URL: ${{ secrets.DATABASE_URL }}
               USE_S3: ${{ secrets.USE_S3 }}
               DEBUG: ${{ secrets.DEBUG }}
+              REGISTRY: ${{ secrets.Registry }}
+              IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
               AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
               AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
