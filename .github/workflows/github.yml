@@ -55,7 +55,8 @@ jobs:
               AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
         run: |
-          echo 'ENVIRONMENT=$ENVIRONMENT' >> .env
+          touch .env
+          echo "ENVIRONMENT='${{ secrets.ENVIRONMENT }}'" >> .env
           echo 'SECRET_KEY=$SECRET_KEY' >> .env
           echo 'DATABASE_URL=$DATABASE_URL' >> .env
           echo 'USE_S3=$USE_S3' >> .env
@@ -65,6 +66,7 @@ jobs:
           echo 'AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> .env
           echo 'AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> .env
           echo 'AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME' >> .env
+          cat .env
 
       - name: Build image
         run: docker-compose -f docker-compose-prod.yml build
