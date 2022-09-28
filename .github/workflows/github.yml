@@ -55,18 +55,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build -t $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) --build-arg ENVIRONMENT=${{ secrets.ENVIRONMENT}} .
-        env:
-          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          USE_S3: True
-          DEBUG: False
-          REGISTRY: ${{ secrets.REGISTRY }}
-          IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
+        run: docker-compose -f docker-compose-prod.yml build
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2

@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      context: .
+      target: prod
+      image: ${REGISTRY}/${IMAGE_NAME}:${GITHUB_SHA}
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
+    volumes:
+      - ./rigueira/:/usr/src/app/
+    ports:
+      - 8082:8080
+    environment:
+      - SECRET_KEY
+      - SQL_ENGINE
+      - DATABASE_URL
+      - REGISTRY
+      - IMAGE_NAME
+      - GITHUB_SHA
+      - DEBUG
+      - SQL_DATABASE
+      - SQL_USER
+      - SQL_PASSWORD
+      - SQL_HOST
+      - SQL_PORT
+      - USE_S3
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_STORAGE_BUCKET_NAME
+
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+
+    depends_on:
+      - db
+  db:
+    image: postgres:14.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=rigueira
+    ports:
+      - 5442:5432
+
+volumes:
+  postgres_data:
