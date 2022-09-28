@@ -43,29 +43,18 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create env
-        env:
-              ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-              SECRET_KEY: ${{ secrets.SECRET_KEY }}
-              DATABASE_URL: ${{ secrets.DATABASE_URL }}
-              USE_S3: ${{ secrets.USE_S3 }}
-              DEBUG: ${{ secrets.DEBUG }}
-              REGISTRY: registry.digitalocean.com
-              IMAGE_NAME: rigueira-reg
-              AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
         run: |
           touch .env
           echo "ENVIRONMENT='${{ secrets.ENVIRONMENT }}'" >> .env
-          echo 'SECRET_KEY=$SECRET_KEY' >> .env
-          echo 'DATABASE_URL=$DATABASE_URL' >> .env
-          echo 'USE_S3=$USE_S3' >> .env
-          echo 'DEBUG=$DEBUG' >> .env
-          echo 'REGISTRY=registry.digitalocean.com' >> .env
-          echo 'IMAGE_NAME=rigueira-reg' >> .env
-          echo 'AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> .env
-          echo 'AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> .env
-          echo 'AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME' >> .env
+          echo "SECRET_KEY='${{ secrets.SECRET_KEY }}'" >> .env
+          echo "DATABASE_URL='${{ secrets.DATABASE_URL }}'" >> .env
+          echo "USE_S3='${{ secrets.USE_S3 }}'" >> .env
+          echo "DEBUG='${{ secrets.DEBUG }}'" >> .env
+          echo "REGISTRY='${{ secrets.REGISTRY }}'" >> .env
+          echo "IMAGE_NAME='${{ secrets.IMAGE_NAME }}'" >> .env
+          echo "AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}'" >> .env
+          echo "AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}'" >> .env
+          echo "AWS_STORAGE_BUCKET_NAME='${{ secrets.AWS_STORAGE_BUCKET_NAME }}'" >> .env
           cat .env
 
       - name: Build image
