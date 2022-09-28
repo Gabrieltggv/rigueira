@@ -43,7 +43,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create env
-        run: |
+        run: >
           touch .env
           echo "ENVIRONMENT='${{ secrets.ENVIRONMENT }}'" >> .env
           echo "SECRET_KEY='${{ secrets.SECRET_KEY }}'" >> .env
