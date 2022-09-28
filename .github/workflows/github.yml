@@ -61,7 +61,7 @@ jobs:
           echo 'USE_S3=$USE_S3' >> .env
           echo 'DEBUG=$DEBUG' >> .env
           echo 'REGISTRY=$REGISTRY' >> .env
-          echo 'IMAGE_NAME="$IMAGE_NAME' >> .env
+          echo 'IMAGE_NAME=$IMAGE_NAME' >> .env
           echo 'AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID' >> .env
           echo 'AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY' >> .env
           echo 'AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME' >> .env
