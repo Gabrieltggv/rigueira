@@ -2,10 +2,10 @@ version: '3.7'
 
 services:
   web:
+    image: ${REGISTRY}/${IMAGE_NAME}:${GITHUB_SHA}
     build:
       context: .
       target: prod
-      image: ${REGISTRY}/${IMAGE_NAME}:${GITHUB_SHA}
       args:
         ENVIRONMENT: ${ENVIRONMENT}
     volumes:
