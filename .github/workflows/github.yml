@@ -45,16 +45,16 @@ jobs:
 
       - name: Create .env
         run: |
-          echo 'ENVIRONMENT=${{ secrets.ENVIRONMENT }}' >> $GITHUB_ENV
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
-          echo "USE_S3=True" >> $GITHUB_ENV
-          $(echo "DEBUG=False" >> .env)
-          $(echo "REGISTRY=${{ secrets.REGISTRY }}" >> .env)
-          $(echo "IMAGE_NAME=${{ secrets.IMAGE_NAME }}" >> .env)
-          $(echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env)
-          $(echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env)
-          $(echo "AWS_STORAGE_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }}" >> .env)
+          echo ENVIRONMENT="${{ secrets.ENVIRONMENT }}" >> .env
+          echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env
+          echo DATABASE_URL="${{ secrets.DATABASE_URL }}" >> .env
+          echo "USE_S3=True" >> .env
+          echo "DEBUG=False" >> .env
+          echo REGISTRY="${{ secrets.REGISTRY }}" >> .env
+          echo IMAGE_NAME="${{ secrets.IMAGE_NAME }}" >> .env
+          echo AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          echo AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo AWS_STORAGE_BUCKET_NAME="${{ secrets.AWS_STORAGE_BUCKET_NAME }}" >> .env
 
       - name: Build image
         run: docker-compose -f docker-compose-prod.yml build
