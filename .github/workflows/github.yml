@@ -45,10 +45,10 @@ jobs:
 
       - name: Create .env
         run: |
-          $(echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env)
-          $(echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env)
-          $(echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env)
-          $(echo "USE_S3=True" >> .env)
+          echo 'ENVIRONMENT=${{ secrets.ENVIRONMENT }}' >> $GITHUB_ENV
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+          echo "USE_S3=True" >> $GITHUB_ENV
           $(echo "DEBUG=False" >> .env)
           $(echo "REGISTRY=${{ secrets.REGISTRY }}" >> .env)
           $(echo "IMAGE_NAME=${{ secrets.IMAGE_NAME }}" >> .env)
