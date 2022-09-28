@@ -43,19 +43,21 @@ jobs:
       - name: Checkout master
         uses: actions/checkout@v2
 
+      - name: Create .env
+        run: |
+          echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "USE_S3=True" >> .env
+          echo "DEBUG=False" >> .env
+          echo "REGISTRY=${{ secrets.REGISTRY }}" >> .env
+          echo "IMAGE_NAME=${{ secrets.IMAGE_NAME }}" >> .env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "AWS_STORAGE_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }}" >> .env
+
       - name: Build image
         run: docker-compose -f docker-compose-prod.yml build
-        env:
-          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          USE_S3: True
-          DEBUG: False
-          REGISTRY: ${{ secrets.REGISTRY }}
-          IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
