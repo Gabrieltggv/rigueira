@@ -19,10 +19,9 @@ COPY ./rigueira/ .
 FROM python:3.10.5-slim-buster AS prod
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ADD . ${SECRET_KEY}
 ENV PATH="/opt/venv/bin:$PATH"
 COPY --from=build-python /opt/venv /opt/venv
 RUN apt-get update && apt-get install -y make gcc python3-dev musl-dev
 WORKDIR /usr/src/app
 COPY ./rigueira/ .
-CMD ["python manage.py collectstatic --noinput && gunicorn rigueira.wsgi:application"]
+CMD ["python manage.py collectstatic --noinput && gunicorn rigueira.wsgi:application --bind 0.0.0.0:8080"]
