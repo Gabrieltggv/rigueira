@@ -95,7 +95,7 @@ jobs:
               key: ${{ secrets.USERKEY }}
               script: |
                 docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
-                docker-compose -f docker-compose pull web
-                docker-compose -f docker-compose down
-                docker-compose -f docker-compose up -d
+                docker-compose -f docker-compose-prod.yml pull web
+                docker-compose -f docker-compose-prod.yml down
+                docker-compose -f docker-compose-prod.yml up -d
                 docker exec prod_rigueira python manage.py migrate
