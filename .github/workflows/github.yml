@@ -52,17 +52,12 @@ jobs:
     steps:
       - name: Checkout master
         uses: actions/checkout@v2
-      
-      - name: Print contexto
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
 
       - name: Create env
-        run: >
+        run: |
           touch .env
           echo "ENVIRONMENT='${{ secrets.ENVIRONMENT }}'" >> .env
-          echo "SECRET_KEY='${{ secrets.SECRET_KEY }}'" >> .env
+          echo "SECRET_KEY=$SECRET_KEY" >> .env
           echo "DATABASE_URL='${{ secrets.DATABASE_URL }}'" >> .env
           echo "USE_S3='${{ secrets.USE_S3 }}'" >> .env
           echo "DEBUG='${{ secrets.DEBUG }}'" >> .env
