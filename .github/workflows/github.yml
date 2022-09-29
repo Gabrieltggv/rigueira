@@ -58,7 +58,7 @@ jobs:
           touch .env
           echo "ENVIRONMENT='${{ env.ENVIRONMENT }}'" >> .env
           echo "SECRET_KEY=${{ env.SECRET_KEY }}" >> .env
-          echo "DATABASE_URL='${{ env.DATABASE_URL }}'" >> .env
+          echo "DATABASE_URL=${{ env.DATABASE_URL }}" >> .env
           echo "USE_S3='${{ env.USE_S3 }}'" >> .env
           echo "DEBUG='${{ env.DEBUG }}'" >> .env
           echo "REGISTRY='${{ env.REGISTRY }}'" >> .env
