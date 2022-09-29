@@ -74,7 +74,7 @@ jobs:
         run: doctl registry login --expiry-seconds 1200
 
       - name: Push registry
-        run: docker push $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA)
+        run: docker-compose -f docker-compose-prod.yml push web
 
 
   deploy:
@@ -95,10 +95,7 @@ jobs:
               key: ${{ secrets.USERKEY }}
               script: |
                 docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
-                docker stop $(echo $IMAGE_NAME)
-                docker rm $(echo $IMAGE_NAME)
-                docker run -d \
-                --restart always \
-                --name $(echo $IMAGE_NAME) \
-
-                $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA)
+                docker-compose -f docker-compose pull web
+                docker-compose -f docker-compose down
+                docker-compose -f docker-compose up -d
+                docker exec prod_rigueira python manage.py migrate
