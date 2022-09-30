@@ -74,48 +74,55 @@ jobs:
         run: doctl registry login --expiry-seconds 1200
 
       - name: Push registry
-        run: docker push $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA)
+        run: docker push $(echo $REGISTRY)/web:latest
 
 
   deploy:
-        if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
-        runs-on: ubuntu-latest
-        name: Deploy to Digitalocean
-        environment: Deploy
-        needs: build_and_push
+    if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    name: Deploy to Digitalocean
+    environment: Deploy
+    needs: build_and_push
 
-        steps:
-          - name: Checkout
-            uses: actions/checkout@v3
-          - name: Execution containers
-            uses: appleboy/ssh-action@master
-            env:
-                ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-                SECRET_KEY: ${{ secrets.SECRET_KEY }}
-                DATABASE_URL: ${{ secrets.DATABASE_URL }}
-                USE_S3: ${{ secrets.USE_S3 }}
-                DEBUG: ${{ secrets.DEBUG }}
-                REGISTRY: ${{ secrets.REGISTRY }}
-                IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
-                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
-                GITHUB_SHA: ${{ github.sha }}
-            with:
-              host: ${{ secrets.HOST }}
-              username: ${{ secrets.USERNAME }}
-              key: ${{ secrets.USERKEY }}
-              envs:
-                ENVIRONMENT,SECRET_KEY,DATABASE_URL,USE_S3, \
-                DEBUG,REGISTRY,IMAGE_NAME,AWS_ACCESS_KEY_ID, \
-                AWS_SECRET_ACCESS_KEY,AWS_STORAGE_BUCKET_NAME
-              script: |
-                echo $IMAGE_NAME
-                echo $REGISTRY
-                echo $GITHUB_SHA
-                docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
-                docker pull $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA)
-                docker run -d --name $IMAGE_NAME $REGISTRY/$IMAGE_NAME:$GITHUB_SHA
-                docker exec $(echo $IMAGE_NAME) python manage.py collectstatic --noinput
-                docker exec $(echo $IMAGE_NAME) gunicorn rigueira.wsgi:application --bind 0.0.0.0:8080
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create env
+        run: |
+          touch .env
+          echo "ENVIRONMENT='$ENVIRONMENT'" >> .env
+          echo "SECRET_KEY='$SECRET_KEY'" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "USE_S3='${{ secrets.USE_S3 }}'" >> .env
+          echo "DEBUG='${{ secrets.DEBUG }}'" >> .env
+          echo "REGISTRY='${{ secrets.REGISTRY }}'" >> .env
+          echo "IMAGE_NAME='${{ secrets.IMAGE_NAME }}'" >> .env
+          echo "AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}'" >> .env
+          echo "AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}'" >> .env
+          echo "AWS_STORAGE_BUCKET_NAME='${{ secrets.AWS_STORAGE_BUCKET_NAME }}'" >> .env
+          
+      - name: Add the private SSH key to the ssh-agent
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: | 
+            mkdir -p ~/.ssh
+            ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
+      - name: Build and deploy images on DigitalOcean
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose-prod.yml root@${{ secrets.HOST }}:/app
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.HOST }} << 'ENDSSH'
+            cd /app
+            source .env
+            docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
+            docker pull $(echo $REGISTRY)/web:latest
+            docker-compose -f docker-compose-prod.yml down
+            docker-compose -f docker-compose-prod.yml run --rm web python manage.py collectstatic --noinput
+            docker-compose -f docker-compose-prod.yml run --rm --service-ports web python manage.py migrate
+            docker-compose -f docker-compose-prod.yml run --rm --service-ports web gunicorn rigueira.wsgi:application --bind 0.0.0.0:8080
+          ENDSSH
 
