@@ -9,8 +9,6 @@ services:
       args:
         ENVIRONMENT: ${ENVIRONMENT}
     container_name: prod_rigueira
-    volumes:
-      - ./rigueira/:/usr/src/app/
     ports:
       - 8082:8080
     environment:
