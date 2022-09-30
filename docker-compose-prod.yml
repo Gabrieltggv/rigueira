@@ -29,7 +29,7 @@ services:
       - AWS_SECRET_ACCESS_KEY
       - AWS_STORAGE_BUCKET_NAME
 
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+    command: ["python manage.py collectstatic --noinput && gunicorn rigueira.wsgi:application --bind 0.0.0.0:8080"]
 
     depends_on:
       - db

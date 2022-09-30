@@ -24,4 +24,3 @@ COPY --from=build-python /opt/venv /opt/venv
 RUN apt-get update && apt-get install -y make gcc python3-dev musl-dev
 WORKDIR /usr/src/app
 COPY ./rigueira/ .
-CMD ["gunicorn", "rigueira.wsgi:application", "--bind", "0.0.0.0:8080"]
