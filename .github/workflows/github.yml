@@ -74,7 +74,7 @@ jobs:
         run: doctl registry login --expiry-seconds 1200
 
       - name: Push registry
-        run: docker-compose -f docker-compose.yml push web
+        run: docker-compose -f docker-compose-prod.yml push web
 
 
   deploy:
