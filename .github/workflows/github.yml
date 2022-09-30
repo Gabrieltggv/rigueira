@@ -74,7 +74,7 @@ jobs:
         run: doctl registry login --expiry-seconds 1200
 
       - name: Push registry
-        run: docker push $(echo $REGISTRY)/web:latest
+        run: docker-compose -f docker-compose.yml push web
 
 
   deploy:
@@ -119,7 +119,7 @@ jobs:
             cd /app
             source .env
             docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
-            docker pull $(echo $REGISTRY)/web:latest
+            docker-compose -f docker-compose-prod.yml pull web
             docker-compose -f docker-compose-prod.yml down
             docker-compose -f docker-compose-prod.yml run --rm web python manage.py collectstatic --noinput
             docker-compose -f docker-compose-prod.yml run --rm --service-ports web python manage.py migrate

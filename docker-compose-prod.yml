@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   web:
-    image: web
+    image: ${REGISTRY}/${IMAGE_NAME}:latest
     build:
       context: .
       target: prod
