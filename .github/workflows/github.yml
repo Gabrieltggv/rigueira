@@ -109,7 +109,12 @@ jobs:
                 DEBUG,REGISTRY,IMAGE_NAME,AWS_ACCESS_KEY_ID, \
                 AWS_SECRET_ACCESS_KEY,AWS_STORAGE_BUCKET_NAME
               script: |
+                echo $IMAGE_NAME
+                echo $REGISTRY
+                echo $GITHUB_SHA
                 docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
                 docker pull $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA)
                 docker run -d --name $IMAGE_NAME $REGISTRY/$IMAGE_NAME:$GITHUB_SHA
+                docker exec $(echo $IMAGE_NAME) python manage.py collectstatic --noinput
+                docker exec $(echo $IMAGE_NAME) gunicorn rigueira.wsgi:application --bind 0.0.0.0:8080
 
